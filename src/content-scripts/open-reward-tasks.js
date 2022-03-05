@@ -8,7 +8,13 @@ function clickElement(e, checkVisibility = true) {
 
 function clickAll(selector, parent = document) {
   const elements = [...parent.querySelectorAll(selector)];
-  elements.forEach(e => clickElement(e, true));
+  elements.forEach(e => 
+    // wait 60 seconds between each "click", to ensure that the site correctly registers that it has been completed 
+    // (it seems that quizzes and polls running at the same time do not get registered as completed)
+    setTimeout(function() {
+		    clickElement(e, true);
+		}, 60000)
+	  );
 }
 
 // scope this in a function so we can inject this script multiple times
