@@ -1,48 +1,37 @@
 {
   "name": "ABS",
   "description": "Automatically perform daily searches and collect bonus reward points.",
-  "version": "1.2.31.3",
-  "manifest_version": 2,
-  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
-  "content_scripts": [{
-    "matches": ["https://*.bing.com/*"],
-    "js": [
-      "constants.js",
-      "utils.js",
-      "chrome-utils.js",
-      "content-scripts/script-injector.js",
-      "content-scripts/window-variable-grabber/injector.js",
-      "content-scripts/quiz-answer-hash-function.js",
-      "content-scripts/main.js"
-    ]
-  }, {
-    "matches": ["https://rewards.microsoft.com/?redref=amc"],
-    "js": [
-      "constants.js",
-      "content-scripts/script-injector.js",
-      "content-scripts/window-open-injection/injector.js"
-    ]
-  }],
-  "background": {
-    "scripts": [
-      "constants.js",
-      "utils.js",
-      "data.js",
-      "query-templates.js",
-      "chrome-utils.js",
-      "background-scripts/prefs.js",
-      "background-scripts/queries.js",
-      "background-scripts/reminder.js",
-      "background-scripts/spoof.js",
-      "background-scripts/search.js",
-      "background-scripts/schedule.js",
-      "background-scripts/messages.js"
-    ],
-    "persistent": true
+  "version": "1.2.32.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
-  "content_security_policy": "script-src 'self' https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js; object-src 'self'",
-  "browser_action": {
-    "default_popup": "popup.html"
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.bing.com/*"
+      ],
+      "js": [
+        "content-scripts/script-injector.js",
+        "content-scripts/window-variable-grabber/injector.js",
+        "content-scripts/quiz-answer-hash-function.js",
+        "content-scripts/main.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://rewards.microsoft.com/?redref=amc"
+      ],
+      "js": [
+        "content-scripts/script-injector.js",
+        "content-scripts/window-open-injection/injector.js"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
   },
   "options_ui": {
     "page": "options.html",
@@ -58,19 +47,31 @@
     }
   },
   "web_accessible_resources": [
-    "constants.js",
-    "content-scripts/window-variable-grabber/main.js",
-    "content-scripts/window-open-injection/main.js"
+    {
+      "resources": [
+        "constants.js",
+        "content-scripts/window-variable-grabber/main.js",
+        "content-scripts/window-open-injection/main.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ],
   "permissions": [
-    "https://*.bing.com/*",
-    "https://trends.google.com/*",
-	"https://rewards.microsoft.com/*",
-	"https://rewards.microsoft.com/",
     "webRequest",
     "webRequestBlocking",
     "tabs",
     "alarms",
     "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "https://*.bing.com/*",
+    "https://trends.google.com/*",
+    "https://rewards.microsoft.com/*",
+    "https://rewards.microsoft.com/"
   ]
 }
