@@ -13,7 +13,7 @@ function clickAll(selector, parent = document) {
     // (it seems that quizzes and polls running at the same time do not get registered as completed)
     setTimeout(function() {
 		    clickElement(e, true);
-		}, 60000)
+		}, 180000)
 	  );
 }
 
